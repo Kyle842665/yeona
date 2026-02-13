@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Confession to Angela</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Satisfy&display=swap');
+        
+        /* Expanded Color Palette for smooth transitions */
+        :root {
+            --color-a: #ffe9f2; /* Lightest Pink */
+            --color-b: #f9c0d3; /* Medium Pink */
+            --color-c: #e0b4e5; /* Light Lavender */
+            --color-d: #ffc9e1; /* Pale Rose */
+            --dark-pink: #e76f92; /* For buttons and text */
+            --button-shadow: rgba(231, 111, 146, 0.5);
+        }
+
+        body {
+            /* Set initial image with all colors for smooth blend */
+            background-image: linear-gradient(135deg, var(--color-a), var(--color-b), var(--color-c), var(--color-d));
+            
+            background-size: 400% 400%;
+            /* TURBO PULSE: 6s duration for fast color change */
+            animation: gradient-pulse 6s ease infinite; 
+            
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #222;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* FASTER PULSE: Keyframes animate position quickly for a more intense blend */
+        @keyframes gradient-pulse {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 0% 100%; }
+            75% { background-position: 50% 0%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        h1 {
+            font-size: 2.8em; 
+            color: var(--dark-pink); 
+            text-shadow: 0 0 10px var(--button-shadow);
+            margin-bottom: 15px;
+            font-family: 'Satisfy', cursive; 
+        }
+        
+        #mainHeading {
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+        
+        /* HEART COLOR CYCLE: Set to 3s for independent fast cycling */
+        @keyframes heart-color-cycle {
+            0%   { background-color: var(--color-a); }
+            25%  { background-color: var(--color-b); }
+            50%  { background-color: var(--color-c); }
+            75%  { background-color: var(--color-d); }
+            100% { background-color: var(--color-a); }
+        }
+
+        /* --- Floating Heart Styles --- */
+        .floating-heart {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            z-index: 5; /* Lower than buttons/letter */
+            pointer-events: none;
+            box-shadow: 0 0 8px var(--button-shadow); 
+            opacity: 0.7;
+            background-color: inherit; 
+            /* Ensure animations run infinitely */
+            animation-iteration-count: infinite, infinite; 
+            /* Ensure both animations are using their correct timing functions */
+            animation-timing-function: ease-in-out, linear; 
+        }
+        .floating-heart:before,
+        .floating-heart:after {
+            content: "";
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: inherit; 
+            border-radius: 50%;
+        }
+        .floating-heart:before {
+            top: -12.5px;
+            left: 0;
+        }
+        .floating-heart:after {
+            left: 12.5px;
+            top: 0;
+        }
+
+        /* Container for both buttons */
+        #choices {
+            z-index: 10;
+            display: flex;
+            justify-content: center; /* Keeps the pair of buttons centered */
+            gap: 40px; 
+            align-items: center;
+            width: 100%;
+            position: relative; 
+            height: 100px; /* Ensure enough height for button positioning */
+        }
+        
+        button {
+            background-color: var(--dark-pink);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1em;
+            margin: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px var(--button-shadow);
+            transition: 0.3s ease;
+        }
+        button:hover {
+            transform: scale(1.1) rotate(-2deg);
+            background-color: #f095ac;
+        }
+
+        /* Reset #noBtn to its default flow position, ready to be made 'fixed' by JS */
+        #noBtn {
+            position: relative; /* Flows naturally next to Yes button initially */
+            transition: all 0.2s ease-out; /* Smooth dodging transition */
+        }
+
+        /* Ensure letter content is above hearts */
+        .letter {
+            display: none;
+            animation: popIn 0.8s ease forwards;
+            z-index: 10; 
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.7); 
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        #letter h1 {
+            animation: bounce 2s infinite ease-in-out;
+        }
+        .letter .meme {
+            font-size: 1.3em;
+            color: var(--dark-pink); 
+            margin-top: 15px;
+            font-family: 'Satisfy', cursive;
+            animation: bounce 2.5s infinite ease-in-out 0.5s; 
+        }
+
+        /* YouTube video float animation */
+        .letter iframe {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            /* Apply subtle bounce animation */
+            animation: bounce 3s infinite ease-in-out 1s; 
+        }
+
+        .memeSticker {
+            position: fixed;
+            bottom: -100px;
+            z-index: 9999;
+            pointer-events: none;
+            animation: floatUp 6s linear infinite;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <audio id="backgroundMusic" loop muted autoplay>
+        <source src="niki_song.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <h1 id="mainHeading">𓆩♡𓆪 Be honest... do you like me? 𓆩♡𓆪</h1>
+    <div id="choices">
+        <button id="yesBtn">Yes (♥ω♥*)</button>
+        <button id="noBtn">No ૮(˶╥︿╥)a</button>
+    </div>
+    <div class="letter" id="letter">
+        <h1>NO WAY ♡〜٩( ˃́▿˂̀ )۶〜♡</h1>
+        <p class="meme">
+            ANGELA SAID YES (｡♥‿♥｡)<br>
+            <br><br>
+            i'm so lucky to have you in my life, i know we're
+             not tgether yet but soon we will. god gave me the greatest gift which
+            is you, i know this message is kinda random hehe since i can't sleep and nothing 
+            else to do i just want to express my feelings to the girl i like the most — IKAW po hehe.
+            ever since we talk I don't feel like stranger ka instead what i feel is like we've known 
+            each other already na which is having a conversation sayo doesn't feel any awkwardness
+            towards you. talking to you is always my energy(maskin gina tulogan lng kita hehe sorry), 
+            you are the answer to all of my problems, you're my stress relief, ikaw ay aking pahinga HAHAHAHA.!(´∀｀)♡<br>
+            Here's a song hope you like it angela (灬º‿º灬)♡
+        </p>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/9SEC3l30ifI?si=eDv-rkKWopfMdcyq&amp;start=70" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const letter = document.getElementById('letter');
+        const choices = document.getElementById('choices');
+        const mainHeading = document.getElementById('mainHeading'); 
+        // Get the audio element
+        const bgMusic = document.getElementById('backgroundMusic'); 
+
+        // Array of texts to display when the user presses 'No'
+        const noButtonTexts = [
+            "Are you sure? (╥‸╥)", 
+            "ANGELAAAA NOO💔", 
+            "ISaaaaaa (ಥ﹏ಥ)", 
+            "ISAA KASII (╥﹏╥)", 
+            "AHHH GANYANAN ",
+            "K",
+            "BAHALA KA TRY HARDER HAHAHAHHA"
+            
+        ];
+        let noTextIndex = 0;
+        
+        // Function to create a floating heart
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            
+            // Random position (using full viewport width/height for coverage)
+            heart.style.left = Math.random() * 90 + 5 + 'vw';
+            heart.style.top = Math.random() * 90 + 5 + 'vh';
+            
+            // HEART SHAPE: Combine the necessary -45deg rotation with a random orientation
+            const randomExtraRotation = Math.random() * 360; 
+            heart.style.transform = `rotate(${randomExtraRotation - 45}deg)`;
+            
+            // Randomly assign animation duration and delay for varied floating and color cycling
+            const bounceDuration = (2 + Math.random() * 2).toFixed(2); // 2.0s to 4.0s
+            const colorDelay = (Math.random() * 3).toFixed(2);    // 0s to 3.0s delay
+            
+            // Apply two sets of durations and delays, matching the CSS animation-name order (bounce, heart-color-cycle)
+            heart.style.animationDuration = `${bounceDuration}s, 3s`;
+            // Add both animation names here (the second one is heart-color-cycle)
+            heart.style.animationName = `bounce, heart-color-cycle`; 
+            heart.style.animationDelay = `0s, ${colorDelay}s`;
+
+            document.body.appendChild(heart);
+        }
+
+        // Create a bunch of hearts when the page loads
+        for (let i = 0; i < 25; i++) {
+            createHeart();
+        }
+
+        yesBtn.addEventListener('click', () => {
+            // Unmute and try to play the music when 'Yes' is clicked
+            if (bgMusic) {
+                bgMusic.muted = false;
+                bgMusic.play().catch(error => {
+                    console.error("Music autoplay prevented, but it's unmuted now.", error);
+                });
+            }
+
+            mainHeading.style.display = 'none'; 
+            choices.style.display = 'none';
+            letter.style.display = 'block';
+            
+            // This part ensures no stickers (which were disabled anyway) start appearing after "Yes"
+            document.querySelectorAll('.memeSticker').forEach(sticker => sticker.remove());
+        });
+
+        noBtn.addEventListener('click', () => {
+            // Update text on click
+            noBtn.textContent = noButtonTexts[noTextIndex];
+            noTextIndex = (noTextIndex + 1) % noButtonTexts.length;
+
+            // Calculate new position relative to the entire window/viewport
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+
+            // Set position to fixed to make it dodge across the entire viewport
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+        });
+
+        function createSticker() {
+            const stickers = [
+                "https://tenor.com/vmbtknfNIjb.gif",
+                "https://i.imgur.com/mFzJkQj.gif",
+                "https://i.imgur.com/sE6ROrE.gif",
+                "https://i.imgur.com/ONJ5vLx.gif",
+                "https://i.imgur.com/HhQeC7A.gif",
+                "https://i.imgur.com/Am0lqgk.gif"
+            ];
+            
+            if (stickers.length === 0) return; 
+
+            const img = document.createElement('img');
+            img.src = stickers[Math.floor(Math.random() * stickers.length)];
+            img.classList.add('memeSticker');
+            img.style.left = Math.random() * 100 + 'vw';
+            img.style.width = 60 + Math.random() * 40 + 'px';
+            img.style.animationDuration = (5 + Math.random() * 4) + 's';
+            document.body.appendChild(img);
+            setTimeout(() => img.remove(), 7000);
+        }
+
+        window.onload = () => {
+             // Initial centering is handled by the flexbox layout
+        }
+    </script>
+</body>
+</html>
