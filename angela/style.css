@@ -1,0 +1,164 @@
+/* Changed font import to include Satisfy (script font) and Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Satisfy&display=swap');
+
+/* Define the new romantic colors */
+:root {
+    --light-pink: #ffe9f2;
+    --normal-pink: #f9c0d3;
+    --dark-pink: #e76f92;
+    --button-shadow: rgba(231, 111, 146, 0.5);
+    --secondary-pink: #ffc9e1; /* Added for smoother pulsing effect */
+}
+
+body {
+    /* Background is now controlled solely by keyframes for the pulsing effect */
+    background-size: 400% 400%;
+    animation: gradient-pulse 15s ease infinite;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    color: #222;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background keyframes UPDATED to cycle colors (background-image) and position */
+@keyframes gradient-pulse {
+    0% {
+        background-position: 0% 50%;
+        /* Start gradient */
+        background-image: linear-gradient(135deg, var(--light-pink), var(--normal-pink));
+    }
+    50% {
+        background-position: 100% 50%;
+        /* Gradient changes at 50% for visible color pulse */
+        background-image: linear-gradient(135deg, var(--normal-pink), var(--secondary-pink)); 
+    }
+    100% {
+        background-position: 0% 50%;
+        /* Return to start gradient */
+        background-image: linear-gradient(135deg, var(--light-pink), var(--normal-pink));
+    }
+}
+
+h1 {
+    font-size: 2.8em; 
+    color: var(--dark-pink); 
+    text-shadow: 0 0 10px var(--button-shadow);
+    margin-bottom: 15px;
+    animation: bounce 2s infinite ease-in-out;
+    font-family: 'Satisfy', cursive; 
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* --- Floating Heart Styles --- */
+.floating-heart {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    z-index: 5; 
+    pointer-events: none;
+    box-shadow: 0 0 8px var(--button-shadow); 
+    opacity: 0.7;
+    animation-name: bounce;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    transition: background-color 0.5s;
+}
+.floating-heart:before,
+.floating-heart:after {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    /* Inherit color from JS applied to parent div */
+    background-color: inherit; 
+    border-radius: 50%;
+}
+.floating-heart:before {
+    top: -12.5px;
+    left: 0;
+}
+.floating-heart:after {
+    left: 12.5px;
+    top: 0;
+}
+
+img {
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+button {
+    background-color: var(--dark-pink);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    color: white;
+    font-size: 1em;
+    margin: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px var(--button-shadow);
+    transition: 0.3s ease;
+}
+button:hover {
+    transform: scale(1.1) rotate(-2deg);
+    background-color: #f095ac;
+}
+#noBtn {
+    position: relative;
+}
+.letter {
+    display: none;
+    animation: popIn 0.8s ease forwards;
+    z-index: 10;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.7); 
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+@keyframes popIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.meme {
+    font-size: 1.3em;
+    color: var(--dark-pink); 
+    margin-top: 15px;
+    font-family: 'Satisfy', cursive;
+}
+/* CSS for stickers remains but JS prevents their creation */
+.memeSticker {
+    position: fixed;
+    bottom: -100px;
+    z-index: 9999;
+    pointer-events: none;
+    animation: floatUp 6s linear infinite;
+}
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}

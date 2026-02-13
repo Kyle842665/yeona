@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine message</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Satisfy&display=swap');
+
+:root{
+    --pink-1:#fff0f6;
+    --pink-2:#ffe0ec;
+    --pink-3:#ffd1e6;
+    --accent:#f497b6;
+    --shadow:rgba(244,151,182,.4);
+}
+
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    font-family:'Poppins',sans-serif;
+    text-align:center;
+    background:linear-gradient(135deg,var(--pink-1),var(--pink-2),var(--pink-3));
+    background-size:400% 400%;
+    animation:bg 10s ease infinite;
+    overflow:hidden;
+}
+
+@keyframes bg{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+h1{
+    font-family:'Satisfy',cursive;
+    color:var(--accent);
+    font-size:2.6em;
+    text-shadow:0 0 10px var(--shadow);
+}
+
+button{
+    background:var(--accent);
+    border:none;
+    padding:12px 28px;
+    border-radius:30px;
+    color:white;
+    font-size:1em;
+    cursor:pointer;
+    box-shadow:0 6px 15px var(--shadow);
+    transition:.3s;
+    margin:10px;
+}
+button:hover{
+    transform:scale(1.08);
+    background:#f7a8c2;
+}
+
+#choices,#afterYes{
+    display:flex;
+    gap:25px;
+}
+
+.letter{
+    display:none;
+    background:rgba(255,255,255,.85);
+    padding:30px;
+    border-radius:25px;
+    max-width:85vw;
+    animation:pop .6s ease;
+    z-index:10;
+}
+
+@keyframes pop{
+    from{transform:scale(.7);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+
+.backBtn{
+    background:#f0b6ca;
+}
+.backBtn:hover{
+    background:#eaa0ba;
+}
+
+#lyricsDisplay{
+    margin-top:20px;
+    font-size:1.3em;
+    color:#e26a97;
+    min-height:40px;
+    opacity:0;
+}
+
+#lyricsDisplay span{
+    display:block;
+    animation:pop .5s ease forwards;
+}
+
+/* 🌸 CUTE FLOATING PARTICLES */
+.particle{
+    position:absolute;
+    font-size:18px;
+    opacity:.8;
+    animation:floatUp linear infinite;
+    pointer-events:none;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(100vh) scale(.8);
+        opacity:0;
+    }
+    to{
+        transform:translateY(-10vh) scale(1.2);
+        opacity:1;
+    }
+}
+
+/* ⭐ Guess the Word Game */
+#guessScreen input{
+    padding:10px 15px;
+    font-size:1em;
+    border-radius:20px;
+    border:2px solid var(--accent);
+    outline:none;
+    margin:10px 0;
+}
+#guessScreen p{
+    font-size:1.3em;
+    color:var(--accent);
+}
+</style>
+</head>
+
+<body>
+
+<audio id="backgroundMusic" loop muted>
+    <source src="ILYSB STRIPPED.mp3" type="audio/mpeg">
+</audio>
+
+<h1 id="mainHeading">𓆩♡𓆪 Will you be my Valentine? 𓆩♡𓆪</h1>
+
+<div id="choices">
+    <button id="yesBtn">Yes (｡♥‿♥｡)</button>
+    <button id="noBtn">No (╥﹏╥)</button>
+</div>
+
+<!-- AFTER YES -->
+<div id="afterYes" style="display:none;">
+    <h1>Message for Yeona 💗</h1>
+    <button id="openMessageBtn">💌 Read Message</button>
+</div>
+
+<!-- MESSAGE -->
+<div class="letter" id="letter">
+<h1>Happy Valentine’s Day ♡</h1>
+<p>
+Yeona (｡♥‿♥｡)<br><br>
+Happy Valentine’s Day!  
+Happy Valentines Day, Yeona! I created this since valentines ngayun and i wanna show you how much i like you and especially long distance tayo. just want to show an effort since you matter and i care about you. we both know that were still in the same getting to know stage but everytime na nagta-talk tayo the feeling of knowing each other keeps on growing to me. i appreciate you also for being the most caring person and pagiging mataray, masungit char joke lang HAHAHAHAHAHAAHHA btw i appreciate you for introducing me sa family mo hehehe enebe(OA CHAR) i hope ikaw na ang end game ko and i hope we will fight this relationship of ours. Thats all i think dami kong gusto sabihin pero di ko mailabas, again Happy Valentines my Love I Love You so Much MWAAAAAAAA.
+</p>
+
+<button id="playMusicBtn">🎵 Short Quotes</button>
+<p id="lyricsDisplay"></p>
+
+<button class="backBtn" id="backFromMessage">⬅ Return</button>
+<button id="nextBtn" class="backBtn" style="margin-top:15px;">➡ Next</button>
+</div>
+
+<!-- RATING SCREEN -->
+<div class="letter" id="ratingScreen">
+    <h1>pa rate hehe</h1>
+    <p>Tap a heart to rate</p>
+    <div id="ratingHearts">
+        <span class="rate">💗</span>
+        <span class="rate">💗</span>
+        <span class="rate">💗</span>
+        <span class="rate">💗</span>
+        <span class="rate">💗</span>
+    </div>
+    <p id="ratingResult"></p>
+    <button id="toGameBtn"> Play Game</button>
+</div>
+
+<!-- GUESS THE WORD GAME -->
+<div class="letter" id="guessScreen">
+    <h1>Guess the Word </h1>
+    <p id="question"></p>
+    <input type="text" id="answerInput" placeholder="Type your answer">
+    <button id="submitAnswer">Submit</button>
+    <p id="timer"></p>
+    <p id="gameResult"></p>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const choices = document.getElementById("choices");
+const afterYes = document.getElementById("afterYes");
+const letter = document.getElementById("letter");
+const mainHeading = document.getElementById("mainHeading");
+const bgMusic = document.getElementById("backgroundMusic");
+const playMusicBtn = document.getElementById("playMusicBtn");
+const lyricsDisplay = document.getElementById("lyricsDisplay");
+const openMessageBtn = document.getElementById("openMessageBtn");
+const backFromMessage = document.getElementById("backFromMessage");
+const nextBtn = document.getElementById("nextBtn");
+
+const ratingScreen = document.getElementById("ratingScreen");
+const ratingHearts = document.querySelectorAll(".rate");
+const ratingResult = document.getElementById("ratingResult");
+const toGameBtn = document.getElementById("toGameBtn");
+
+const guessScreen = document.getElementById("guessScreen");
+const questionEl = document.getElementById("question");
+const answerInput = document.getElementById("answerInput");
+const submitAnswer = document.getElementById("submitAnswer");
+const timerEl = document.getElementById("timer");
+const gameResult = document.getElementById("gameResult");
+
+const lyricsArray=[
+{line:"Every little thing you do…",delay:1000},
+{line:"Makes my heart beat faster.",delay:3500},
+{line:"I can’t imagine a day without you.",delay:6000},
+{line:"I love you 💕",delay:9000}
+];
+
+function hideAll(){
+    letter.style.display="none";
+    afterYes.style.display="none";
+    ratingScreen.style.display="none";
+    guessScreen.style.display="none";
+}
+
+/* 🎵 MUSIC STARTS ON YES */
+yesBtn.onclick=()=>{
+    mainHeading.style.display="none";
+    choices.style.display="none";
+    afterYes.style.display="flex";
+    bgMusic.muted=false;
+    bgMusic.play().catch(()=>{});
+};
+
+openMessageBtn.onclick=()=>{
+    hideAll();
+    letter.style.display="block";
+};
+
+backFromMessage.onclick=()=>{
+    hideAll();
+    afterYes.style.display="flex";
+};
+
+playMusicBtn.onclick=()=>{
+    lyricsDisplay.style.opacity=1;
+    lyricsArray.forEach(l=>{
+        setTimeout(()=>{
+            lyricsDisplay.innerHTML="";
+            const s=document.createElement("span");
+            s.textContent=l.line;
+            lyricsDisplay.appendChild(s);
+        },l.delay);
+    });
+    playMusicBtn.remove();
+};
+
+nextBtn.onclick=()=>{
+    hideAll();
+    ratingScreen.style.display="block";
+};
+
+noBtn.onclick=()=>{
+    noBtn.style.position="fixed";
+    noBtn.style.left=Math.random()*90+"vw";
+    noBtn.style.top=Math.random()*90+"vh";
+};
+
+ratingHearts.forEach((heart,index)=>{
+    heart.onclick=()=>{
+        ratingResult.textContent = `You rated this ${index+1}/5 💕`;
+    };
+});
+
+toGameBtn.onclick = ()=>{
+    hideAll();
+    guessScreen.style.display="block";
+    startGuessGame();
+};
+
+/* 🌸 PARTICLES */
+const emojis=["💗","🌸","🌸","🌸","🌸"];
+function createParticle(){
+    const p=document.createElement("div");
+    p.className="particle";
+    p.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=(6+Math.random()*6)+"s";
+    p.style.fontSize=(14+Math.random()*18)+"px";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),12000);
+}
+setInterval(createParticle,300);
+
+/* GUESS THE WORD GAME LOGIC */
+const questions = [
+    {q:"Who do you love the most?", a:"kyle"},
+    {q:"sino crush mo?", a:"kyle"},
+    {q:"who's the most poging person ever?", a:"kyle"},
+    {q:"sino love ni kyle?", a:"yeona"},
+];
+
+let currentQ=0;
+let score=0;
+let timeLeft;
+let timerInterval;
+
+function startGuessGame(){
+    currentQ=0;
+    score=0;
+    gameResult.textContent="";
+    answerInput.value="";
+    showQuestion();
+}
+
+function showQuestion(){
+    if(currentQ>=questions.length){
+        guessScreen.innerHTML=`<h1>Game Over </h1>
+        <p>Your score: ${score} / ${questions.length}</p>
+        <p>Thank you for playing! </p>`;
+        return;
+    }
+    questionEl.textContent = questions[currentQ].q;
+    answerInput.value="";
+    answerInput.focus();
+    timeLeft=5;
+    timerEl.textContent = `Time: ${timeLeft}s`;
+
+    timerInterval = setInterval(()=>{
+        timeLeft--;
+        timerEl.textContent = `Time: ${timeLeft}s`;
+        if(timeLeft<=0){
+            clearInterval(timerInterval);
+            currentQ++;
+            showQuestion();
+        }
+    },1500);
+}
+
+
+submitAnswer.onclick=()=>{
+    clearInterval(timerInterval);
+    let userAnswer = answerInput.value.trim().toLowerCase();
+    if(userAnswer===questions[currentQ].a.toLowerCase()){
+        score++;
+    }
+    currentQ++;
+    showQuestion();
+};
+</script>
+
+</body>
+</html>
