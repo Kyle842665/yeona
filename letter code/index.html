@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<title>A Galaxy of Us</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div id="ui">
+
+  <div id="masthead">
+    <div>
+      <h1 id="title">YOU IN EVERY GALAXY</h1>
+      <p id="subtitle">every light here is a night I remember</p>
+    </div>
+    <div id="tools">
+      <button id="muteBtn" aria-label="Mute sound">Sound on</button>
+      <button id="editBtn">Edit</button>
+    </div>
+  </div>
+
+  <p id="hint">Drag to turn the galaxy &nbsp;·&nbsp; Scroll to travel &nbsp;·&nbsp; Touch a memory</p>
+
+  <section id="gate">
+    <h2>For Jeona.</h2>
+    <p>Sound plays when you arrive</p>
+    <button id="enter">Open the galaxy</button>
+  </section>
+
+  <article id="paper" aria-live="polite">
+    <button id="closePaper" aria-label="Close photo">✕</button>
+    <img class="shot" id="paperShot" alt="" />
+    <div class="cap">
+      <h3 id="paperTitle"></h3>
+      <time id="paperDate"></time>
+      <p id="paperNote"></p>
+    </div>
+    <div class="track">
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span id="paperTrack"></span>
+    </div>
+  </article>
+
+  <aside id="drawer" aria-label="Edit this galaxy">
+    <header>
+      <h2>Make it yours</h2>
+      <button id="closeDrawer" aria-label="Close editor">✕</button>
+    </header>
+    <div class="scroll">
+      <p class="note">Add a photo and a song to each memory. Words are saved in this browser; photos and songs stay for this visit — to keep them forever, put the files next to the HTML and set their names in the <b>MEMORIES</b> list at the top of main.js.</p>
+
+      <div class="field"><label for="fTitle">Headline</label><input id="fTitle" type="text" /></div>
+      <div class="field"><label for="fSub">Second line</label><input id="fSub" type="text" /></div>
+
+      <div id="memoList"></div>
+    </div>
+  </aside>
+
+  <div id="toast"></div>
+</div>
+
+<!-- Three.js r128: CDN, then a second CDN, then a local copy if you have one -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>window.THREE||document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"><\/script>');</script>
+<script>window.THREE||document.write('<script src="three.min.js"><\/script>');</script>
+<script src="script.js"></script>
+</body>
+</html>
